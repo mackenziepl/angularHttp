@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpService } from './http.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +10,23 @@ import { HttpService } from './http.service';
 })
 export class AppComponent {
 
+  allPosts$: Observable<Array<Post>>;
+
   constructor(private httpService: HttpService) {}
 
   getPosts() {
+    this.allPosts$ = this.httpService.getPosts();
+  }
+
+  /** getPosts() {
     this.httpService.getPosts().subscribe(posts => {
       console.log(posts);
-    });
-  }
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error.status);
+    }
+    );
+  } */
 
   getPost() {
     this.httpService.getPost(1).subscribe(post => {
@@ -29,11 +41,15 @@ export class AppComponent {
   }
 
   addPost() {
-    const post: Post = ({
+    const p: Post = ({
       userId: 1,
       id: null,
       title: 'My post',
       body: 'First post about Angular!'
+    });
+
+    this.httpService.addPost(p).subscribe(post => {
+      console.log(post);
     });
   }
 
@@ -44,16 +60,26 @@ export class AppComponent {
       title: 'Other post',
       body: 'New post'
     });
+
+    this.httpService.updatetPost(p).subscribe(post => {
+      console.log(post);
+    });
   }
 
   deletePost() {
-
+    this.httpService.deletePost(1).subscribe(post => {
+      console.log(post);
+    });
   }
 
   changePost() {
     const p: Post = ({
       id: 1,
       body: 'Change post'
+    });
+
+    this.httpService.changetPost(p).subscribe(post => {
+      console.log(post);
     });
   }
 }

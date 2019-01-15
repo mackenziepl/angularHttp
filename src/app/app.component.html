@@ -6,4 +6,8 @@
 <button (click) = "deletePost()">deletePost</button>
 <button (click) = "changePost()">changePost</button>
 
+<div *ngFor="let p of allPosts$ | async">
+  {{'Id: ' + p.id + '  ' + 'UserId: ' + p.userId + '  ' + 'Title: ' + p.title + '  ' + 'Body: ' + p.body}}
+</div>
+
 <router-outlet></router-outlet>
